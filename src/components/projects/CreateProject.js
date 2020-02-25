@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { createProject } from "../../store/actions/projectActions";
 
 class CreateProject extends Component {
   state = {
@@ -12,7 +14,8 @@ class CreateProject extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
+    //console.log(this.state);
+    this.props.createProject(this.state);
   };
   render() {
     return (
@@ -43,4 +46,14 @@ class CreateProject extends Component {
   }
 }
 
-export default CreateProject;
+//createProject é o nome da propriedade que estamos mapeando em nosso componente
+//passamos então um project como parâmetro
+//retornamos uma função que realiza o dispatch da ação para o action creator (projectActions), enviando o projeto
+const mapDispatchToProps = dispatch => {
+  return {
+    createProject: project => dispatch(createProject(project))
+  };
+};
+
+//mapStateToProps, mapDispatchToProps
+export default connect(null, mapDispatchToProps)(CreateProject);
