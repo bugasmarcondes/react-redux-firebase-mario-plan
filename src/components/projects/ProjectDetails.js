@@ -3,9 +3,11 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
+import moment from "moment";
+import "moment/locale/pt-br";
 
 const ProjectDetails = props => {
-  const { project, auth } = props;
+  const { project, auth, profile } = props;
 
   if (!auth.uid) {
     return <Redirect to="/signin" />;
@@ -20,8 +22,12 @@ const ProjectDetails = props => {
             <p>{project.content}</p>
           </div>
           <div className="card-action gret lighten-4 grey-text">
-            <div>Posted by the Net Ninja</div>
-            <div>2nd September, 2am</div>
+            <div>
+              Posted by {profile.firstName} {profile.lastName}
+            </div>
+            <div>
+              {moment(project.createdAt.toDate()).format("DD/MMMM/YYYY")}
+            </div>
           </div>
         </div>
       </div>
@@ -43,7 +49,8 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     project: project,
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    profile: state.firebase.profile
   };
 };
 

@@ -1,4 +1,6 @@
 import React from "react";
+import moment from "moment";
+import "moment/locale/pt-br";
 
 export const ProjectSummary = ({ project }) => {
   return (
@@ -8,7 +10,9 @@ export const ProjectSummary = ({ project }) => {
         <p>
           Posted by {project.authorFirstName} {project.authorLastName}
         </p>
-        <p className="grey-text">3rd September, 2am</p>
+        <p className="grey-text">
+          {moment(project.createdAt.toDate()).format("DD/MMMM/YYYY")}
+        </p>
       </div>
     </div>
   );
