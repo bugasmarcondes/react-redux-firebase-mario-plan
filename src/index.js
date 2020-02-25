@@ -9,14 +9,14 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import { reduxFirestore, getFirestore } from "redux-firestore";
 import { reactReduxFirebase, getFirebase } from "react-redux-firebase";
-import fbConfg from "./config/fbConfig";
+import fbConfig from "./config/fbConfig";
 
 const store = createStore(
   rootReducer,
   compose(
     applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })), //passamos parâmetros para projectActions acessar ao firebase
-    reduxFirestore(fbConfg), //store enhancer para conectar com firestore
-    reactReduxFirebase(fbConfg) //store enhancer para conectar com firebase
+    reduxFirestore(fbConfig), //store enhancer para conectar com firestore
+    reactReduxFirebase(fbConfig) //store enhancer para conectar com firebase
   )
 );
 
