@@ -1,0 +1,162 @@
+TEORIA
+======
+Redux (store central dos dados)
+    1. Component
+        - através do mapStateToProps o componente subscribes to changes (props)
+    2. Dispatch action
+        - para quando queremos alterar o state da aplicação
+        - o componente dispara uma action, esta ação descreve a alteração que queremos fazer na store
+        - a ação e o payload são passados para o reducer
+    3. Reducer
+        - é onde efetivamente é atualizada a store
+
+AULA 1
+======
+npx create-react-app react-redux-firebase-mario-plan
+
+yarn start
+
+criar a estrutura de pastas para os componentes
+
+instalar react-router-dom
+    > yarn add react-router-dom
+
+AULA 11
+=======
+yarn add redux react-redux
+
+1. criar store
+2. criar os reducers
+    2.a. criar o rootReducer
+    2.b. passar rootReducer para para a store
+3. importar o provider (index.js ) e passar a Store para o App
+
+AULA 14
+=======
+yarn add redux-thunk
+
+1. aplicar middleware thunk na store
+2. criar o action creator
+3.
+    a. connect() componente a redux store
+    b. importar o action creator para o componente
+4. tratar a ação recebida no reducer
+
+AULA 15
+=======
+- criar projeto no firebase
+
+yarn add firebase
+
+- criar arquivo de configuração (config/fbConfig.js) e colar código Web de conexão, gerado pelo Firebase
+
+AULA 16
+=======
+- criar database no firebase em modo de testes
+- criar coleção e documentos
+    - projects
+        - authorFirstName
+        - authorLastName
+        - content
+        - title
+
+AULA 17
+=======
+yarn add react-redux-firebase redux-firestore
+
+- adicionar pacotes instalados no index.js
+- compose store enhacers para que a store consiga se conectar com o firebase
+
+AULA 18
+=======
+- realizar conexão com firestore via Actions e adicionar documento na coleção
+- erro ao startar projeto (index.js no reduxFirestore(fbConfig)), tive que instalar as seguintes versões exatamente:
+    - yarn add react-redux-firebase@2.1.8 redux-firestore@0.5.7
+
+AULA 19
+=======
+- criar o firestore reducer que irá sincronizar os dados do banco com os dados da store
+- utilizar firestoreConnect no componente, para sincronizar uma coleção na store
+- erro ao startar projeto (firestoreConnect.js), TypeError: Cannot read property 'firebase' of undefined
+    - yarn add react-redux@^5.1.1
+
+AULA 20
+=======
+- conectar o componente ao firebase e ao redux state, utilizando o compose
+
+AULA 21
+=======
+- habilitar firebase auth (e-mail e senha) via console do firebase
+
+AULA 22
+=======
+- importar firebaseReducer no rootReducer, para guardar auth state no redux
+- conectar o componente com o redux state, para verificar os dados de auth no redux state
+
+AULA 23
+=======
+- criar authActions para tratar os eventos de autenticação
+- receber e tratar as actions no authReducer
+- conectar o componente a action
+- credenciais
+    - adm@bugas.com.br
+    - bugas@123
+
+AULA 26
+=======
+- não carrega aplicação até que o Firebase Auth esteja pronto, isso evita que a tela pisque/mude ao carregar via F5
+
+AULA 28
+=======
+- authActions, criando ação para regitrar uma conta de usuário
+- authReducer, recebe o dispatch da ação e retorna o state atualizado
+- signUp, ao executar o evento, realiza o dispatch da ação
+
+AULA 29
+=======
+- alteração realizada no index.js, aplica parâmetros ao middleware reactReduxFirebase, para que o firebase nos retorne os dados de profile da coleção users, dentro do profile
+- passando profile como props, de Navbar para SignInLinks e exibindo as iniciais do usuário
+
+AULA 31
+=======
+- yarn add moment
+- importar biblioteca e i18n
+
+AULA 32
+=======
+- Estuturar as regras de segurança no Firebase
+    - https://firebase.google.com/docs/firestore/security/rules-structure
+    - D5t9z6UJIYaQ5GRjkTja
+- Código aplicado
+    rules_version = '2';
+    service cloud.firestore {
+        match /databases/{database}/documents {
+            match /projects/{project} {
+                allow read, write: if request.auth.uid != null
+            }
+            match /users/{userdId} {
+                allow create
+                allow read: if request.auth.uid != null
+                allow write: if request.auth.uid == userId ****** NAO FUNCIONOU NO TESTE
+            }
+        }
+    }
+
+AULA 33
+=======
+- para deployar cloud functions precisamos seguir os seguintes passos
+    - npm install -g firebase-tools
+    - firebase login
+    - firebase init
+        - function and hosting
+        - public directory = dist
+    - firebase deploy
+
+AULA 34
+=======
+- firebase deploy --only functions
+
+AULA 40
+=======
+- yarn run build
+- firebase deploy
