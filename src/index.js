@@ -16,7 +16,11 @@ const store = createStore(
   compose(
     applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })), //passamos parâmetros para projectActions acessar ao firebase
     reduxFirestore(fbConfig), //store enhancer para conectar com firestore
-    reactReduxFirebase(fbConfig, { attachAuthIsReady: true }) //store enhancer para conectar com firebase
+    reactReduxFirebase(fbConfig, {
+      useFirestoreForProfile: true,
+      userProfile: "users",
+      attachAuthIsReady: true
+    }) //store enhancer para conectar com firebase
   )
 );
 
